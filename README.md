@@ -2,95 +2,99 @@
 
 ⚖️ LegalEase
 
-AI-powered preliminary legal guidance, lawyer discovery, and professional registration
+AI-powered preliminary legal guidance, evidence organisation, and lawyer discovery
 
-A Django-based legal-tech platform designed to help people understand legal situations, organise useful information, preserve evidence, and identify the right type of professional support.
-
-<br>
+A Django-based legal-tech prototype that helps users understand a legal situation, prepare useful information, preserve evidence, and identify the right type of legal professional.
 
 
 
-<br>
-
-Overview •Features •Project Flow •Installation •Configuration •Security •Roadmap
+Overview •Features •How It Works •Installation •Review Guide •Security •Roadmap
 
 </div>
 
-Overview
+[!IMPORTANT]LegalEase provides preliminary educational legal information only. It is not a law firm, does not create a lawyer-client relationship, and must not replace advice from a qualified lawyer, court, police authority, emergency service, or official legal-aid provider.
 
-Legal issues can feel difficult long before a person speaks with a lawyer. Many people are unsure about:
+🚀 Overview
+
+Legal problems often become confusing before a person even speaks with a lawyer.
+
+Users may not know:
 
 what information is important;
 
-which documents or screenshots should be preserved;
+which documents, messages, screenshots, or recordings should be preserved;
 
-whether the matter may be urgent;
+whether the situation may require urgent action;
 
-which legal practice area applies;
+which area of law is relevant;
 
-what practical next step they should take.
+what practical step they should take next;
 
-LegalEase is a student legal-tech project built to make that first stage easier.
+what information they should prepare before contacting a professional.
 
-It combines:
+LegalEase helps organise that first stage.
 
-an India-focused AI legal-information assistant;
+Instead of presenting users with complex legal language, the platform guides them through a structured process:
 
-plain-language preliminary guidance;
+Select the preferred language, location, legal category, and urgency.
 
-legal practice-area discovery;
+Describe the situation in plain language.
 
-lawyer and law-firm registration;
+Optionally attach a supported document.
 
-administrator approval workflows;
+Receive a structured preliminary response.
 
-feedback and contact management;
+Review practical next steps and an evidence checklist.
 
-document and media uploads;
+Explore the relevant practice area.
 
-a modern, accessible public interface.
+Find or register a lawyer or law firm.
 
-Important: LegalEase provides preliminary educational information only. It does not replace a qualified lawyer, court, police authority, emergency service, or official legal-aid provider.
+💡 Why This Project Matters
 
-Why LegalEase?
+LegalEase is designed around a simple idea:
 
-LegalEase focuses on one practical problem: helping a user move from confusion to a more organised understanding of their situation.
+Move the user from confusion to a more organised understanding of their legal situation.
 
-The platform encourages users to:
+The platform helps users:
 
-describe the issue in their own words;
+📝 explain an issue in their own words;
 
-identify the relevant location, category, and urgency;
+🧭 identify a possible legal category;
 
-understand possible next steps;
+📍 provide state or Union Territory context;
 
-preserve useful evidence and documents;
+🚨 indicate urgency;
 
-discover the appropriate type of legal professional;
+📂 organise documents and supporting evidence;
 
-submit professional or feedback information through structured forms.
+✅ receive practical next-step guidance;
 
-Key Features
+👨‍⚖️ understand what type of legal professional may be relevant;
 
-Area
+🏛️ submit lawyer or law-firm profiles for administrative review.
 
-What it provides
+✨ Key Features
+
+Feature
+
+What it does
 
 🤖 AI Legal Assistant
 
-Converts a user’s description into plain-language guidance, practical next steps, and an evidence checklist.
+Converts a user’s description into plain-language preliminary guidance, practical steps, and an evidence checklist.
 
 🇮🇳 India-focused Context
 
-Uses state/UT, legal category, urgency, and preferred response language as additional context.
+Uses the selected state/UT, legal category, urgency, and preferred response language as contextual information.
 
-🌐 Multilingual Experience
+🌐 Multilingual Interface
 
 Supports English, Hindi, Hinglish, Marathi, Bengali, Gujarati, and Punjabi selections.
 
-📄 Document Context
+📄 Document-assisted Questions
 
-Reads supported TXT, Markdown, JSON, CSV, PDF, and DOCX files in the browser and sends a limited excerpt as context.
+Reads supported files in the browser and includes a limited excerpt with the legal question.
 
 🔊 Accessible Responses
 
@@ -98,53 +102,58 @@ Includes text-to-speech, copy controls, dark mode, and conversation export.
 
 ⚖️ Practice-area Discovery
 
-Helps users explore criminal, civil, family, corporate, tax, and cybercrime categories.
+Introduces users to criminal, civil, family, corporate, tax, and cybercrime categories.
 
 👨‍⚖️ Professional Registration
 
-Lawyers and law firms can submit professional details for administrator review.
+Allows lawyers and law firms to submit professional information through a structured form.
 
-✅ Approval Workflow
+✅ Django Admin Review
 
-New registrations begin as pending and can be approved through Django Admin.
+Stores new registrations as pending and allows an administrator to review and approve them.
 
-💬 Feedback and Contact
+💬 Feedback and Contact Forms
 
-Stores ratings, messages, documents, images, and recorded feedback video.
+Stores ratings, messages, documents, images, and supported feedback videos.
 
 🛡️ Server-side AI Integration
 
-Keeps the Gemini API key inside environment configuration instead of exposing it in frontend JavaScript.
+Sends Gemini requests through Django so the API key is not exposed in frontend JavaScript.
 
-Project Flow
+🔄 How LegalEase Works
 
-Overall user journey
+Complete User Journey
 
 flowchart LR
-    A[Visitor opens LegalEase] --> B{What do they need?}
+    A[Visitor opens LegalEase] --> B{What does the visitor need?}
 
-    B -->|Understand a legal issue| C[AI Legal Assistant]
-    B -->|Explore an area of law| D[Practice Categories]
-    B -->|Find or register a professional| E[Lawyers and Firms]
-    B -->|Share feedback or contact the team| F[Feedback and Contact]
+    B -->|Understand a legal issue| C[Open AI Legal Assistant]
+    B -->|Explore an area of law| D[View Practice Categories]
+    B -->|Find or register a professional| E[Open Lawyers and Firms]
+    B -->|Send feedback or a message| F[Open Feedback or Contact Form]
 
-    C --> G[Choose language, state, category and urgency]
-    G --> H[Describe the situation or attach a document]
-    H --> I[Django AI Endpoint]
-    I --> J[Gemini API and local context]
-    J --> K[Plain-language guidance]
-    K --> L[Next steps and evidence checklist]
+    C --> G[Select language, state, category and urgency]
+    G --> H[Describe the situation]
+    H --> I{Attach a document?}
+    I -->|Yes| J[Extract a limited text excerpt]
+    I -->|No| K[Continue without a document]
+    J --> L[Send request to Django]
+    K --> L
+    L --> M[Validate prompt and recent conversation]
+    M --> N[Send structured request to Gemini]
+    N --> O[Receive preliminary guidance]
+    O --> P[Show next steps and evidence checklist]
 
-    E --> M[Submit lawyer or firm profile]
-    M --> N[(SQLite Database)]
-    N --> O[Django Admin Review]
-    O --> P{Approved?}
-    P -->|Yes| Q[Approved professional]
-    P -->|No| R[Pending review]
+    E --> Q[Submit lawyer or firm details]
+    Q --> R[(SQLite Database)]
+    R --> S[Django Admin Review]
+    S --> T{Approved?}
+    T -->|Yes| U[Approved professional profile]
+    T -->|No| V[Keep profile pending]
 
-    F --> N
+    F --> R
 
-AI request sequence
+AI Request Sequence
 
 sequenceDiagram
     actor User
@@ -152,63 +161,70 @@ sequenceDiagram
     participant Django as Django Backend
     participant Gemini as Gemini API
 
-    User->>UI: Describes a legal issue
-    UI->>UI: Adds language, state, category and urgency
+    User->>UI: Describe a legal situation
+    UI->>UI: Add language, state, category and urgency
+    UI->>UI: Optionally extract document text
     UI->>Django: POST /api/legal-assistant/
-    Django->>Django: Validates prompt and recent history
-    Django->>Gemini: Sends system prompt and limited context
-    Gemini-->>Django: Returns generated guidance
-    Django-->>UI: Returns a JSON response
-    UI-->>User: Displays guidance, next steps and evidence tips
+    Django->>Django: Validate prompt and recent history
+    Django->>Gemini: Send system instruction and limited context
+    Gemini-->>Django: Return generated guidance
+    Django-->>UI: Return JSON response
+    UI-->>User: Display guidance, next steps and evidence tips
 
-Professional-registration flow
+Professional Registration Flow
 
 flowchart TD
-    A[Lawyer or firm opens registration form] --> B[Enters professional details]
-    B --> C[Django validates the submission]
-    C -->|Invalid| D[Show clear validation message]
-    C -->|Valid| E[Save profile as Pending Review]
-    E --> F[Django Admin]
-    F --> G[Administrator checks submitted credentials]
-    G --> H{Decision}
-    H -->|Approve| I[Mark profile as approved]
-    H -->|Needs review| J[Keep profile pending]
+    A[Lawyer or law firm opens registration form] --> B[Enter professional information]
+    B --> C[Accept accuracy and review consent]
+    C --> D[Django validates the form]
 
-Main Pages and Routes
+    D -->|Invalid| E[Show a clear validation message]
+    D -->|Valid| F[Save profile as Pending Review]
 
-Route
+    F --> G[Django Admin]
+    G --> H[Administrator reviews submitted details]
+    H --> I{Review decision}
 
-Purpose
+    I -->|Approve| J[Mark profile as approved]
+    I -->|More verification needed| K[Keep profile pending]
 
-/
+🏗️ System Architecture
 
-Homepage, legal categories, feedback form, and contact form
+flowchart TB
+    User[User Browser]
 
-/assistant/
+    subgraph Frontend
+        Templates[Django Templates]
+        JS[Vanilla JavaScript]
+        Reader[PDF.js and Mammoth.js]
+    end
 
-AI legal-information assistant
+    subgraph Backend
+        URLs[Django URL Router]
+        Views[Views and AI Endpoint]
+        Forms[Forms and Validation]
+        Models[Django Models]
+        Admin[Django Admin]
+    end
 
-/api/legal-assistant/
+    DB[(SQLite Database)]
+    Media[(Media Storage)]
+    Gemini[Google Gemini API]
 
-Server-side POST endpoint used by the assistant
+    User --> Templates
+    Templates --> JS
+    JS --> Reader
+    Templates --> URLs
+    URLs --> Views
+    Views --> Forms
+    Forms --> Models
+    Models --> DB
+    Models --> Media
+    Admin --> Models
+    Views --> Gemini
+    Gemini --> Views
 
-/lawyers/
-
-Lawyer and firm discovery and professional registration
-
-/admin/
-
-Django Admin for feedback and professional review
-
-/AI
-
-Legacy redirect to /assistant/
-
-/blog
-
-Legacy redirect to /lawyers/
-
-Technology Stack
+🧰 Technology Stack
 
 Layer
 
@@ -224,7 +240,7 @@ Django Templates, HTML5, CSS3, Vanilla JavaScript
 
 AI Integration
 
-Google Gemini API through a Django endpoint
+Google Gemini API through a server-side Django endpoint
 
 Database
 
@@ -232,7 +248,7 @@ SQLite for local development
 
 File Handling
 
-Django media storage and server-side validation
+Django media storage, extension validation, and upload checks
 
 Document Reading
 
@@ -242,167 +258,55 @@ Administration
 
 Django Admin
 
-Icons and Typography
+Icons
 
-Font Awesome, Inter, and Playfair Display
+Font Awesome
 
-Architecture
+Typography
 
-flowchart TB
-    Browser[Browser Interface]
-    Templates[Django Templates]
-    Views[Django Views and API Endpoint]
-    Forms[Django Forms and Validation]
-    Models[Django Models]
-    DB[(SQLite Database)]
-    Media[(Media Storage)]
-    Admin[Django Admin]
-    Gemini[Google Gemini API]
+Inter and Playfair Display
 
-    Browser --> Templates
-    Templates --> Views
-    Views --> Forms
-    Forms --> Models
-    Models --> DB
-    Models --> Media
-    Admin --> Models
-    Views --> Gemini
-    Gemini --> Views
+🗺️ Main Pages and Routes
 
-Installation
-
-Prerequisites
-
-Before starting, install:
-
-Python 3.12 or newer
-
-Git
-
-A modern web browser
-
-A Gemini API key for live AI responses
-
-Clone the repository
-
-git clone https://github.com/mohithakur0602/LegalEase-AI-legal-assistant.git
-cd LegalEase-AI-legal-assistant
-
-Quick Windows setup
-
-The repository includes:
-
-setup_windows.bat
-run_windows.bat
-
-Run setup_windows.bat once to:
-
-create the virtual environment;
-
-install project requirements;
-
-create the local .env file;
-
-apply database migrations.
-
-After setup, use:
-
-run_windows.bat
-
-to start the project.
-
-Manual setup with Git Bash
-
-py -m venv env
-source env/Scripts/activate
-
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-
-cp .env.example .env
-
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-
-Manual setup with PowerShell
-
-py -m venv env
-env\Scripts\Activate.ps1
-
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-
-Copy-Item .env.example .env
-
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-
-Open the application at:
-
-http://127.0.0.1:8000/
-
-Open Django Admin at:
-
-http://127.0.0.1:8000/admin/
-
-Environment Configuration
-
-Copy .env.example to .env and update the values:
-
-DJANGO_SECRET_KEY=replace-this-with-a-long-random-secret
-DJANGO_DEBUG=True
-DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
-DJANGO_CSRF_TRUSTED_ORIGINS=
-
-GEMINI_API_KEY=replace-with-your-gemini-api-key
-GEMINI_MODEL=gemini-2.5-flash
-GEMINI_TIMEOUT_SECONDS=35
-
-Variable
+Route
 
 Purpose
 
-DJANGO_SECRET_KEY
+/
 
-Django cryptographic secret. Use a strong private value.
+Homepage, legal categories, feedback form, and contact form
 
-DJANGO_DEBUG
+/assistant/
 
-Keep True locally and use False in production.
+AI-powered preliminary legal-information assistant
 
-DJANGO_ALLOWED_HOSTS
+/api/legal-assistant/
 
-Comma-separated domains or IP addresses allowed to serve the app.
+Server-side POST endpoint used by the assistant
 
-DJANGO_CSRF_TRUSTED_ORIGINS
+/lawyers/
 
-Optional comma-separated trusted HTTPS origins for deployment.
+Lawyer discovery and professional registration
 
-GEMINI_API_KEY
+/admin/
 
-Restricted Gemini API key used only by Django.
+Django Admin for feedback and professional review
 
-GEMINI_MODEL
+/AI
 
-Gemini model used by the legal assistant.
+Legacy redirect to /assistant/
 
-GEMINI_TIMEOUT_SECONDS
+/blog
 
-Maximum time Django waits for an AI response.
+Legacy redirect to /lawyers/
 
-Never commit .env, db.sqlite3, uploaded media, or your virtual environment. The included .gitignore excludes these files.
-
-When no Gemini API key is configured, common matching questions may still receive limited guidance from the browser’s local knowledge base. Other requests will display a configuration message.
-
-Project Structure
+📁 Project Structure
 
 LegalEase-AI-legal-assistant/
 ├── LegalEase/
 │   ├── main.py                 # Page views and Gemini API endpoint
 │   ├── settings.py             # Django and environment settings
-│   ├── urls.py                 # Project routes
+│   ├── urls.py                 # Application routes
 │   ├── tests.py                # Core route and API tests
 │   ├── asgi.py
 │   └── wsgi.py
@@ -428,92 +332,338 @@ LegalEase-AI-legal-assistant/
 │
 ├── static/                     # Project-owned static assets
 ├── media/                      # Local uploads; ignored by Git
-├── .env.example                # Safe environment template
 ├── .gitignore
 ├── requirements.txt
 ├── setup_windows.bat
 ├── run_windows.bat
 └── manage.py
 
-Django Admin Workflow
+💻 Installation
 
-After creating a superuser, open:
+Prerequisites
+
+Install the following before starting:
+
+Python 3.12 or newer
+
+Git
+
+A modern web browser
+
+A Google Gemini API key for live AI responses
+
+1. Clone the Repository
+
+git clone https://github.com/mohithakur0602/LegalEase-AI-legal-assistant.git
+cd LegalEase-AI-legal-assistant
+
+2. Create the Environment Configuration
+
+Create a file named .env in the project root:
+
+DJANGO_SECRET_KEY=replace-this-with-a-long-random-secret
+DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS=127.0.0.1,localhost
+DJANGO_CSRF_TRUSTED_ORIGINS=
+
+GEMINI_API_KEY=replace-with-your-gemini-api-key
+GEMINI_MODEL=gemini-2.5-flash
+GEMINI_TIMEOUT_SECONDS=35
+
+[!CAUTION]Never commit .env, API keys, private legal information, uploaded identity documents, or a database containing personal information.
+
+3A. Quick Windows Setup
+
+The repository includes Windows helper scripts.
+
+First-time setup
+
+setup_windows.bat
+
+The setup script will:
+
+create the env virtual environment;
+
+install the project requirements;
+
+apply database migrations;
+
+prepare the project for local use.
+
+Create an administrator account:
+
+env\Scripts\python manage.py createsuperuser
+
+Start the application:
+
+run_windows.bat
+
+3B. Manual Setup — PowerShell
+
+py -m venv env
+env\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+3C. Manual Setup — Git Bash
+
+py -m venv env
+source env/Scripts/activate
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+3D. Manual Setup — Linux or macOS
+
+python3 -m venv env
+source env/bin/activate
+
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+4. Open the Project
+
+Open the public application:
+
+http://127.0.0.1:8000/
+
+Open Django Admin:
 
 http://127.0.0.1:8000/admin/
 
-Feedback management
+🔍 How to Review the Project
+
+A recruiter, developer, teacher, or contributor can use the following review process.
+
+Step 1 — Clone and prepare the project
+
+git clone https://github.com/mohithakur0602/LegalEase-AI-legal-assistant.git
+cd LegalEase-AI-legal-assistant
+
+Create and activate a virtual environment, install the requirements, and configure .env.
+
+Step 2 — Run Django checks
+
+python manage.py check
+
+Expected result:
+
+System check identified no issues.
+
+Step 3 — Run automated tests
+
+python manage.py test
+
+Review whether:
+
+the homepage opens correctly;
+
+the assistant route loads;
+
+the lawyers route loads;
+
+legacy redirects work;
+
+invalid AI requests are rejected;
+
+forms validate expected input;
+
+database records are created correctly.
+
+Step 4 — Run the development server
+
+python manage.py runserver
+
+Step 5 — Review the main user journeys
+
+Homepage review
+
+Open /.
+
+Submit feedback.
+
+Submit a contact message.
+
+Test supported attachments.
+
+Confirm success and validation messages.
+
+AI assistant review
+
+Open /assistant/.
+
+Select a language, location, category, and urgency.
+
+Ask a legal-information question.
+
+Attach a supported document.
+
+Check the response structure.
+
+Test copy, text-to-speech, dark mode, and export controls.
+
+Professional registration review
+
+Open /lawyers/.
+
+Submit a lawyer profile.
+
+Submit a law-firm profile.
+
+Confirm the registration is saved as pending.
+
+Open /admin/.
+
+Review and approve the submitted profile.
+
+Security review
+
+Confirm .env is ignored by Git.
+
+Confirm the Gemini key is not present in frontend JavaScript.
+
+Test CSRF-protected forms.
+
+Test oversized or unsupported uploads.
+
+Test empty and excessively long AI requests.
+
+Confirm public pages do not expose private email addresses or phone numbers.
+
+⚙️ Environment Variables
+
+Variable
+
+Purpose
+
+DJANGO_SECRET_KEY
+
+Private Django cryptographic secret
+
+DJANGO_DEBUG
+
+Enables or disables debug mode
+
+DJANGO_ALLOWED_HOSTS
+
+Comma-separated domains or IP addresses allowed to serve the application
+
+DJANGO_CSRF_TRUSTED_ORIGINS
+
+Trusted HTTPS origins used during deployment
+
+GEMINI_API_KEY
+
+Private Google Gemini API key used by Django
+
+GEMINI_MODEL
+
+Gemini model used by the legal assistant
+
+GEMINI_TIMEOUT_SECONDS
+
+Maximum time Django waits for the AI service
+
+When no Gemini API key is configured, the live Gemini response is unavailable.
+
+🛠️ Django Admin Workflow
+
+Feedback and contact management
 
 Administrators can:
 
 review feedback and contact submissions;
 
-filter by submission type, rating, and date;
+filter records by submission type, rating, and date;
 
 search by name, email, or message;
 
-preview uploaded images and videos;
+preview supported images and videos;
 
-open other supported attachments.
+open other supported attachments;
 
-Professional registrations
+review submissions in reverse chronological order.
+
+Professional registration management
 
 Administrators can:
 
-search by name, registration ID, email, phone, city, or practice area;
+search by professional name, registration ID, email, phone, city, or practice area;
 
-filter lawyers and firms by approval status and practice area;
+filter lawyers and firms by approval status;
 
-review submitted professional information;
+review submitted credentials and profile information;
 
-approve profiles directly from Django Admin.
+approve professional profiles through Django Admin;
 
-Security and Privacy
+keep incomplete profiles pending for additional verification.
 
-LegalEase includes several safety-focused implementation choices:
+🔐 Security and Privacy
 
-Gemini requests are sent through Django, keeping the API key out of browser source code.
+LegalEase includes several responsible implementation choices:
 
-CSRF protection is enabled for forms and the assistant endpoint.
+Gemini requests are sent through Django.
 
-Professional email addresses and phone numbers are not displayed publicly.
+The Gemini API key is not placed in frontend JavaScript.
 
-Phone numbers are stored as text so +91 and leading zeroes remain valid.
+CSRF protection is used for forms and the assistant endpoint.
 
-Feedback attachments are restricted by extension and maximum size.
+Empty, malformed, and excessively long AI requests are rejected.
 
-AI conversation history is limited before being sent to the API.
+Conversation history is limited before it is sent to the AI service.
 
-Empty, malformed, or excessively long AI requests are rejected.
+File extensions and upload sizes are validated.
 
-New professional profiles are not treated as verified until reviewed.
+Professional phone numbers and email addresses are not directly rendered on public profile cards.
 
-.env, databases, media uploads, and virtual environments are excluded from Git.
+New professional registrations are marked as pending.
 
-Production recommendations
+.env, local databases, uploaded media, and virtual environments are excluded from Git.
 
-Before deploying publicly:
+Before a public production deployment
 
-set DJANGO_DEBUG=False;
+Complete the following work:
 
-use a strong, private DJANGO_SECRET_KEY;
+Set DJANGO_DEBUG=False.
 
-restrict DJANGO_ALLOWED_HOSTS;
+Use a strong production DJANGO_SECRET_KEY.
 
-use HTTPS;
+Restrict DJANGO_ALLOWED_HOSTS.
 
-configure DJANGO_CSRF_TRUSTED_ORIGINS;
+Configure DJANGO_CSRF_TRUSTED_ORIGINS.
 
-move from SQLite to PostgreSQL;
+Use HTTPS.
 
-store uploaded files in secure object storage;
+Move from SQLite to PostgreSQL.
 
-add rate limiting to the AI endpoint;
+Store uploads in secure object storage.
 
-configure structured logging and error monitoring;
+Add MIME-type and content validation for uploads.
 
-review privacy, consent, and data-retention requirements.
+Add rate limiting to the AI endpoint.
 
-Checks and Tests
+Add structured logging and error monitoring.
+
+Display only approved professional profiles publicly.
+
+Add privacy, consent, retention, and deletion policies.
+
+Complete a legal and privacy review before collecting real case information.
+
+✅ Checks and Tests
 
 Run Django system checks:
 
@@ -523,69 +673,120 @@ Run automated tests:
 
 python manage.py test
 
-Create and apply model migrations:
+Create migrations after model changes:
 
 python manage.py makemigrations
 python manage.py migrate
 
-Roadmap
+Check pending migrations:
 
-Planned improvements include:
+python manage.py makemigrations --check
 
-User accounts and saved consultations
+📸 Screenshots
 
-Verified lawyer login and profile management
+Add screenshots inside a directory such as:
 
-Public display of approved professionals
+docs/screenshots/
+├── homepage.png
+├── assistant.png
+├── lawyers.png
+└── admin.png
 
-Appointment-request workflow
+Then add this gallery to the README:
 
-Email notifications for registrations and feedback
+| Homepage | AI Assistant |
+|---|---|
+| ![Homepage](docs/screenshots/homepage.png) | ![AI Assistant](docs/screenshots/assistant.png) |
 
-PostgreSQL support for production
+| Lawyers and Firms | Django Admin |
+|---|---|
+| ![Lawyers](docs/screenshots/lawyers.png) | ![Admin](docs/screenshots/admin.png) |
 
-AI endpoint rate limiting
+A short demonstration video or animated GIF will make the repository much more attractive to recruiters and contributors.
 
-Production logging and monitoring
+🧭 Roadmap
 
-Automated CI and deployment
+Priority 1 — Privacy and verification
 
-Official legal-resource links managed from Django Admin
+Show only approved professionals on public pages.
 
-Screenshot gallery and live demonstration
+Keep pending applications visible only in Django Admin.
 
-Improved accessibility testing
+Add verified-professional profile pages.
 
-Expanded automated test coverage
+Add a documented privacy and data-retention policy.
 
-Contributing
+Add stronger file-content validation.
 
-Contributions that improve accessibility, validation, documentation, test coverage, or responsible legal-information design are welcome.
+Priority 2 — Product features
 
-Create a branch:
+User accounts and saved consultations.
+
+Lawyer login and profile management.
+
+Appointment-request workflow.
+
+Email notifications for registrations and feedback.
+
+Public display of verified professionals.
+
+Official legal-resource links managed from Django Admin.
+
+Priority 3 — Production engineering
+
+PostgreSQL support.
+
+AI endpoint rate limiting.
+
+Structured logging and monitoring.
+
+Automated CI checks.
+
+Deployment documentation.
+
+Docker support.
+
+Expanded unit and integration tests.
+
+Accessibility testing.
+
+🤝 Contributing
+
+Contributions that improve accessibility, validation, documentation, test coverage, security, or responsible legal-information design are welcome.
+
+Contribution steps
+
+Fork the repository.
+
+Create a new branch.
 
 git checkout -b feature/your-improvement
 
-Commit your changes:
+Make and test your changes.
+
+python manage.py check
+python manage.py test
+
+Commit your changes.
 
 git add .
 git commit -m "Add your improvement"
 
-Push the branch:
+Push the branch.
 
 git push origin feature/your-improvement
 
-Then open a pull request explaining:
+Open a pull request explaining:
 
 what changed;
 
-why the change was needed;
+why the change was required;
 
 how the change was tested;
 
-whether it affects user data, security, or AI behaviour.
+whether it affects user data, security, uploads, or AI behaviour.
 
-Please do not commit
+Do not commit
 
 API keys or .env files;
 
@@ -593,39 +794,41 @@ real client or legal-case information;
 
 uploaded identity documents;
 
-database files containing personal information;
+databases containing personal information;
 
-generated virtual-environment files.
+virtual environments;
 
-Legal Disclaimer
+generated media files.
+
+⚠️ Legal Disclaimer
 
 LegalEase is an educational software project.
 
-Its responses may be incomplete, outdated, or incorrect and must not be treated as a final legal opinion. Laws, procedures, deadlines, and available remedies can vary according to the facts, date, and location.
+AI-generated responses may be incomplete, outdated, or incorrect. They must not be treated as a final legal opinion. Laws, procedures, deadlines, and remedies can vary according to the facts, date, location, and applicable authority.
 
 For immediate danger, violence, a medical emergency, or an urgent threat, contact the appropriate emergency service or a trusted person nearby.
 
-For a real legal matter, verify important information with a qualified lawyer, official authority, or recognised legal-aid provider.
+For a real legal matter, verify important information with:
 
-Repository
+a qualified lawyer;
 
-Repository:github.com/mohithakur0602/LegalEase-AI-legal-assistant
+an official government authority;
 
-Maintainer:mohithakur0602
+a court or police authority where appropriate;
 
-Licence
+a recognised legal-aid provider.
 
-A licence has not yet been specified for this repository.
+📄 Licence
 
-Before accepting external contributions or allowing reuse, add a suitable LICENSE file and update this section.
+A licence has not yet been added to this repository.
+
+Before accepting external contributions or allowing unrestricted reuse, add an appropriate LICENSE file and update this section.
 
 <div align="center">
 
 Built as a practical Django legal-tech project
 
-Focused on clarity, safety, accessibility, and an approachable user experience.
-
-<br>
+Focused on clarity, safety, accessibility, structured legal-information preparation, and responsible AI usage.
 
 ⭐ Star the repository if you find LegalEase useful.
 
