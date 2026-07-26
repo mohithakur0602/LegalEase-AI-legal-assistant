@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Browse legal practice areas and register lawyers or firms with LegalEase." />
+  <meta name="theme-color" content="#090d22" />
+  <title>LegalEase — Lawyers & Firms</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg:#f5f6fb;
+      --surface:rgba(255,255,255,.9);
+      --surface-solid:#fff;
+      --surface-2:#eef1f8;
+      --surface-3:#e3e7f2;
+      --text:#182036;
+      --muted:#69748b;
+      --line:rgba(25,34,54,.11);
+      --purple:#6c4cff;
+      --purple-2:#977cff;
+      --gold:#efc76c;
+      --gold-soft:#ffe9ad;
+      --success:#29a978;
+      --danger:#e35d68;
+      --shadow:0 24px 74px rgba(35,27,88,.14);
+      --shadow-soft:0 13px 38px rgba(35,27,88,.09);
+      --radius-xl:30px;
+      --radius-lg:22px;
+      --radius-md:15px;
+      --container:1200px;
+    }
+    [data-theme="dark"] {
+      --bg:#07091a;
+      --surface:rgba(15,18,43,.83);
+      --surface-solid:#11152f;
+      --surface-2:#171c3d;
+      --surface-3:#20264b;
+      --text:#f5f7ff;
+      --muted:#aab2cc;
+      --line:rgba(255,255,255,.09);
+      --purple:#7b5cff;
+      --purple-2:#9c80ff;
+      --gold:#f0c86d;
+      --gold-soft:#ffe5a0;
+      --success:#4fd3a0;
+      --danger:#ff777f;
+      --shadow:0 30px 94px rgba(0,0,0,.44);
+      --shadow-soft:0 18px 54px rgba(0,0,0,.28);
+      color-scheme:dark;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:100px}
+    body{
+      margin:0;
+      min-height:100vh;
+      overflow-x:hidden;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(850px 560px at 5% -5%,rgba(123,92,255,.28),transparent 68%),
+        radial-gradient(760px 520px at 96% 5%,rgba(240,200,109,.14),transparent 68%),
+        var(--bg);
+      transition:.25s ease;
+    }
+    body::before{
+      content:"";
+      position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.25;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:42px 42px;
+      mask-image:linear-gradient(to bottom,black,transparent 85%);
+    }
+    button,input,select,textarea{font:inherit}
+    button,a{-webkit-tap-highlight-color:transparent}
+    a{color:inherit;text-decoration:none}
+    h1,h2,h3,p{margin-top:0}
+    .container{width:min(var(--container),calc(100% - 32px));margin-inline:auto}
+    .glass{
+      background:var(--surface);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(22px);
+      -webkit-backdrop-filter:blur(22px);
+    }
+    .kicker{
+      color:var(--purple-2);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    /* Header */
+    .site-header{position:sticky;top:0;z-index:1000;padding:12px 0}
+    .nav-shell{
+      min-height:70px;
+      border-radius:22px;
+      padding:10px 12px 10px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:18px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+    .brand-mark{
+      width:45px;height:45px;border-radius:15px;
+      display:grid;place-items:center;
+      color:#15182e;font-size:20px;
+      background:linear-gradient(145deg,var(--gold-soft),var(--gold));
+      box-shadow:0 12px 28px rgba(231,189,99,.23);
+    }
+    .brand-name{font-family:"Playfair Display",serif;font-size:22px;font-weight:800;line-height:1}
+    .brand-tag{display:block;margin-top:4px;color:var(--muted);font-size:10px}
+    .desktop-nav{display:flex;align-items:center;gap:4px}
+    .desktop-nav a{
+      padding:10px 12px;border-radius:11px;
+      color:var(--muted);font-size:12px;font-weight:700;transition:.18s ease;
+    }
+    .desktop-nav a:hover,.desktop-nav a.active{color:var(--text);background:var(--surface-2)}
+    .nav-actions{display:flex;align-items:center;gap:8px}
+    .icon-btn,.primary-btn,.ghost-btn,.small-btn{
+      border:0;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      font-weight:800;transition:.18s ease;
+    }
+    .icon-btn{
+      width:42px;height:42px;border:1px solid var(--line);border-radius:13px;
+      color:var(--muted);background:var(--surface-2);
+    }
+    .icon-btn:hover{color:var(--text);transform:translateY(-2px)}
+    .primary-btn{
+      min-height:48px;padding:0 19px;border-radius:14px;color:#fff;
+      background:linear-gradient(135deg,var(--purple),var(--purple-2));
+      box-shadow:0 12px 29px rgba(108,76,255,.28);
+    }
+    .primary-btn:hover{transform:translateY(-2px);filter:brightness(1.07)}
+    .ghost-btn{
+      min-height:48px;padding:0 18px;border:1px solid var(--line);
+      border-radius:14px;color:var(--text);background:var(--surface-2);
+    }
+    .ghost-btn:hover{transform:translateY(-2px);border-color:rgba(123,92,255,.42)}
+    .small-btn{
+      min-height:42px;padding:0 14px;border-radius:13px;color:#fff;
+      background:linear-gradient(135deg,var(--purple),var(--purple-2));
+    }
+    .menu-btn{display:none}
+    .mobile-drawer{
+      display:none;position:fixed;top:94px;left:16px;right:16px;z-index:999;
+      border-radius:22px;padding:12px;
+    }
+    .mobile-drawer.open{display:grid;animation:drawerIn .18s ease both}
+    @keyframes drawerIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+    .mobile-drawer a{padding:13px 14px;border-radius:12px;color:var(--muted);font-size:13px;font-weight:700}
+    .mobile-drawer a:hover{color:var(--text);background:var(--surface-2)}
+
+    /* Hero */
+    .hero{padding:52px 0 64px}
+    .hero-grid{
+      display:grid;grid-template-columns:minmax(0,1.04fr) minmax(390px,.96fr);
+      gap:38px;align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border-radius:999px;
+      color:var(--gold);background:rgba(240,200,109,.09);
+      border:1px solid rgba(240,200,109,.28);
+      font-size:11px;font-weight:800;letter-spacing:.085em;text-transform:uppercase;
+    }
+    .hero h1{
+      margin:21px 0 17px;
+      font-family:"Playfair Display",serif;
+      font-size:clamp(44px,6vw,76px);
+      line-height:.99;letter-spacing:-.035em;
+    }
+    .gradient-text{
+      color:transparent;
+      background:linear-gradient(90deg,var(--gold),#fff0b8 42%,var(--purple-2));
+      -webkit-background-clip:text;background-clip:text;
+    }
+    .hero-copy{max-width:690px;color:var(--muted);font-size:16px;line-height:1.76}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}
+    .hero-note{display:flex;flex-wrap:wrap;gap:16px;margin-top:20px;color:var(--muted);font-size:10px;font-weight:700}
+    .hero-note span{display:inline-flex;align-items:center;gap:7px}
+    .hero-note i{color:var(--success)}
+
+    .hero-panel{
+      position:relative;min-height:510px;border-radius:34px;padding:26px;overflow:hidden;
+      color:#f7f8ff;
+      background:
+        radial-gradient(440px 330px at 78% 16%,rgba(240,200,109,.19),transparent 70%),
+        radial-gradient(520px 390px at 10% 84%,rgba(123,92,255,.34),transparent 72%),
+        linear-gradient(145deg,#0b1029,#21184f);
+      border:1px solid rgba(255,255,255,.1);
+      box-shadow:var(--shadow);
+    }
+    .hero-panel::after{
+      content:"";position:absolute;inset:0;opacity:.38;pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+      background-size:34px 34px;
+      mask-image:radial-gradient(circle at center,black,transparent 75%);
+    }
+    .panel-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .panel-head strong{font-size:13px}
+    .verified{color:#86ecc2;font-size:10px}
+    .match-card{
+      position:relative;z-index:1;margin-top:18px;padding:18px;border-radius:19px;
+      background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+      backdrop-filter:blur(14px);
+    }
+    .match-person{display:flex;gap:13px;align-items:center}
+    .portrait{
+      width:58px;height:58px;border-radius:18px;display:grid;place-items:center;
+      color:#15182e;font-size:22px;
+      background:linear-gradient(145deg,var(--gold-soft),var(--gold));
+    }
+    .match-person strong{display:block;font-size:13px}
+    .match-person span{color:#b9c0d8;font-size:9px}
+    .score{margin-left:auto;padding:7px 9px;border-radius:999px;background:rgba(79,211,160,.13);color:#8beec5;font-size:9px;font-weight:800}
+    .match-tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+    .match-tags span{padding:6px 8px;border-radius:999px;color:#c6cce0;background:rgba(255,255,255,.07);font-size:9px}
+    .match-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .match-stats div{padding:11px;border-radius:13px;background:rgba(255,255,255,.055)}
+    .match-stats strong{display:block;font-size:11px}
+    .match-stats span{color:#aab2cc;font-size:8px}
+    .category-cloud{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px}
+    .cloud-item{
+      min-height:78px;padding:12px;border-radius:15px;
+      background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);
+    }
+    .cloud-item i{color:var(--gold)}
+    .cloud-item strong{display:block;margin:7px 0 3px;font-size:10px}
+    .cloud-item span{color:#aab2cc;font-size:8px}
+    .hero-search{
+      position:absolute;left:26px;right:26px;bottom:24px;z-index:2;
+      min-height:58px;padding:8px 9px 8px 15px;border-radius:18px;
+      display:flex;align-items:center;gap:10px;
+      color:#aab2cc;background:rgba(13,17,39,.88);
+      border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(16px);
+    }
+    .hero-search input{flex:1;border:0;outline:0;color:#fff;background:transparent;font-size:10px}
+    .hero-search button{
+      width:42px;height:42px;border:0;border-radius:13px;color:#fff;cursor:pointer;
+      background:linear-gradient(145deg,var(--purple),var(--purple-2));
+    }
+
+    /* Shared sections */
+    .section{padding:78px 0}
+    .section-head{max-width:760px;margin:0 auto 38px;text-align:center}
+    .section-head h2{
+      margin:11px 0 13px;font-family:"Playfair Display",serif;
+      font-size:clamp(34px,4.3vw,51px);line-height:1.08;letter-spacing:-.025em;
+    }
+    .section-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+
+    /* Search/filter */
+    .finder-shell{border-radius:var(--radius-xl);padding:22px}
+    .finder-grid{display:grid;grid-template-columns:1.3fr .8fr .7fr auto;gap:10px;align-items:end}
+    .field label{display:block;margin:0 0 7px 2px;color:var(--muted);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    .field input,.field select,.field textarea{
+      width:100%;border:1px solid var(--line);border-radius:13px;
+      background:var(--surface-2);color:var(--text);outline:none;padding:11px 12px;
+    }
+    .field input,.field select{height:45px}
+    .field textarea{min-height:105px;resize:vertical}
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:rgba(123,92,255,.52);box-shadow:0 0 0 4px rgba(123,92,255,.1);
+    }
+    .finder-grid .primary-btn{height:45px;min-height:45px}
+
+    /* Practice categories */
+    .category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+    .category-card{
+      position:relative;min-height:250px;padding:24px;border-radius:var(--radius-lg);
+      overflow:hidden;transition:.2s ease;
+    }
+    .category-card:hover{transform:translateY(-6px);border-color:rgba(123,92,255,.38)}
+    .category-card::after{
+      content:"";position:absolute;width:180px;height:180px;right:-70px;bottom:-80px;
+      border-radius:50%;background:radial-gradient(circle,rgba(123,92,255,.17),transparent 70%);
+    }
+    .category-icon{
+      width:52px;height:52px;border-radius:17px;display:grid;place-items:center;
+      margin-bottom:34px;color:var(--gold);font-size:20px;
+      border:1px solid rgba(240,200,109,.24);background:rgba(240,200,109,.08);
+    }
+    .category-card h3{font-size:17px;margin-bottom:8px}
+    .category-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.65}
+    .category-meta{
+      position:absolute;left:24px;right:24px;bottom:19px;z-index:1;
+      display:flex;align-items:center;justify-content:space-between;gap:8px;
+    }
+    .badge{padding:6px 9px;border-radius:999px;color:var(--purple-2);background:rgba(123,92,255,.12);font-size:8px;font-weight:800}
+    .category-meta a{color:var(--gold);font-size:9px;font-weight:800}
+
+    /* Professionals */
+    .professional-toolbar{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:17px;
+    }
+    .professional-toolbar h2{font-family:"Playfair Display",serif;font-size:31px;margin:0}
+    .count{color:var(--muted);font-size:10px}
+    .profile-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+    .profile-card{border-radius:var(--radius-lg);padding:20px;transition:.2s ease}
+    .profile-card:hover{transform:translateY(-5px);border-color:rgba(240,200,109,.3)}
+    .profile-head{display:flex;gap:12px;align-items:center}
+    .profile-avatar{
+      width:54px;height:54px;border-radius:17px;display:grid;place-items:center;
+      color:#fff;font-weight:900;background:linear-gradient(145deg,var(--purple),var(--purple-2));
+      flex:0 0 auto;
+    }
+    .profile-card:nth-child(2) .profile-avatar{color:#17172b;background:linear-gradient(145deg,var(--gold-soft),var(--gold))}
+    .profile-card:nth-child(3) .profile-avatar{background:linear-gradient(145deg,#178c69,#4fd3a0)}
+    .profile-name strong{display:block;font-size:13px}
+    .profile-name span{color:var(--muted);font-size:9px}
+    .demo-label{margin-left:auto;padding:5px 7px;border-radius:999px;color:var(--muted);background:var(--surface-2);font-size:7px;font-weight:800}
+    .profile-tags{display:flex;flex-wrap:wrap;gap:6px;margin:15px 0}
+    .profile-tags span{padding:6px 8px;border-radius:999px;color:var(--purple-2);background:rgba(123,92,255,.11);font-size:8px;font-weight:700}
+    .profile-card p{min-height:50px;color:var(--muted);font-size:10px;line-height:1.55}
+    .profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:14px 0}
+    .profile-stats div{padding:9px;border-radius:11px;background:var(--surface-2)}
+    .profile-stats strong{display:block;font-size:9px}
+    .profile-stats span{color:var(--muted);font-size:7px}
+    .profile-actions{display:flex;gap:7px}
+    .profile-actions button,.profile-actions a{
+      flex:1;min-height:39px;border-radius:11px;border:1px solid var(--line);
+      display:flex;align-items:center;justify-content:center;gap:6px;
+      cursor:pointer;color:var(--text);background:var(--surface-2);
+      font-size:9px;font-weight:800;
+    }
+    .profile-actions .connect-btn{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--purple),var(--purple-2))}
+    .empty-state{
+      display:none;grid-column:1/-1;padding:36px;border-radius:var(--radius-lg);text-align:center;
+    }
+    .empty-state i{font-size:30px;color:var(--gold)}
+    .empty-state h3{margin:12px 0 7px}
+    .empty-state p{margin:0;color:var(--muted);font-size:11px}
+
+    /* Registration section */
+    .register-grid{
+      display:grid;grid-template-columns:minmax(0,.84fr) minmax(0,1.16fr);
+      border-radius:var(--radius-xl);overflow:hidden;
+    }
+    .register-copy{
+      padding:clamp(28px,4.4vw,52px);color:#fff;
+      background:
+        radial-gradient(420px 330px at 20% 15%,rgba(240,200,109,.18),transparent 68%),
+        linear-gradient(145deg,#0d1230,#251b59);
+    }
+    .register-copy h2{
+      margin:15px 0;font-family:"Playfair Display",serif;
+      font-size:clamp(34px,4vw,50px);line-height:1.08;
+    }
+    .register-copy p{color:#bcc3dc;font-size:12px;line-height:1.65}
+    .register-list{display:grid;gap:12px;margin-top:25px}
+    .register-list span{display:flex;gap:9px;color:#e0e4f3;font-size:10px}
+    .register-list i{color:var(--gold)}
+    .register-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:clamp(27px,4vw,46px);background:var(--surface-solid);align-content:center}
+    .register-option{
+      min-height:230px;padding:24px;border-radius:20px;border:1px solid var(--line);
+      background:var(--surface-2);cursor:pointer;text-align:left;color:var(--text);transition:.2s ease;
+    }
+    .register-option:hover{transform:translateY(-5px);border-color:rgba(123,92,255,.42)}
+    .register-option i{font-size:26px;color:var(--gold)}
+    .register-option h3{margin:28px 0 9px;font-size:17px}
+    .register-option p{color:var(--muted);font-size:10px;line-height:1.55}
+    .register-option span{display:inline-flex;gap:7px;align-items:center;margin-top:16px;color:var(--purple-2);font-size:9px;font-weight:800}
+
+    /* Registered preview */
+    .preview-tabs{display:flex;gap:8px;margin-bottom:15px}
+    .tab-btn{
+      min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:12px;
+      cursor:pointer;color:var(--muted);background:var(--surface-2);font-size:10px;font-weight:800;
+    }
+    .tab-btn.active{color:#fff;border-color:transparent;background:linear-gradient(135deg,var(--purple),var(--purple-2))}
+    .registered-list{display:grid;gap:10px}
+    .registered-row{
+      border-radius:17px;padding:15px;display:grid;
+      grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center;
+    }
+    .registered-avatar{
+      width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+      color:#fff;font-weight:900;background:linear-gradient(145deg,var(--purple),var(--purple-2));
+    }
+    .registered-row strong{display:block;font-size:12px}
+    .registered-row p{margin:3px 0 0;color:var(--muted);font-size:9px;line-height:1.45}
+    .registered-row button{
+      width:36px;height:36px;border-radius:11px;border:1px solid var(--line);
+      color:var(--danger);background:var(--surface-2);cursor:pointer;
+    }
+    .registered-empty{
+      border-radius:17px;padding:27px;text-align:center;color:var(--muted);font-size:10px;
+    }
+
+    /* Footer */
+    footer{padding:26px 0 40px}
+    .footer-shell{
+      border-radius:20px;padding:19px 20px;
+      display:flex;align-items:center;justify-content:space-between;gap:20px;
+    }
+    .footer-shell p{margin:0;color:var(--muted);font-size:9px}
+    .footer-links{display:flex;flex-wrap:wrap;gap:13px}
+    .footer-links a{color:var(--muted);font-size:9px;font-weight:700}
+    .footer-links a:hover{color:var(--text)}
+
+    /* Modal */
+    .modal{
+      display:none;position:fixed;inset:0;z-index:3000;
+      align-items:center;justify-content:center;padding:18px;
+      background:rgba(4,6,18,.72);backdrop-filter:blur(10px);
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width:min(830px,100%);max-height:calc(100vh - 36px);overflow:auto;
+      border-radius:28px;padding:24px;
+    }
+    .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:21px}
+    .modal-head h2{margin:7px 0 5px;font-family:"Playfair Display",serif;font-size:30px}
+    .modal-head p{margin:0;color:var(--muted);font-size:10px}
+    .close-btn{
+      width:40px;height:40px;border:1px solid var(--line);border-radius:13px;
+      cursor:pointer;color:var(--muted);background:var(--surface-2);
+    }
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field.full{grid-column:1/-1}
+    .checkbox{
+      display:flex;align-items:flex-start;gap:9px;color:var(--muted);
+      font-size:9px;line-height:1.5;
+    }
+    .checkbox input{margin-top:2px}
+    .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+
+    .toast{
+      position:fixed;left:50%;bottom:24px;z-index:5000;
+      transform:translate(-50%,22px);opacity:0;pointer-events:none;
+      padding:11px 15px;border-radius:13px;
+      color:#fff;background:#15182e;border:1px solid rgba(255,255,255,.1);
+      box-shadow:0 15px 50px rgba(0,0,0,.35);font-size:10px;transition:.24s ease;
+    }
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:1020px){
+      .desktop-nav{display:none}.menu-btn{display:grid}
+      .hero-grid,.register-grid{grid-template-columns:1fr}
+      .category-grid,.profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .finder-grid{grid-template-columns:1fr 1fr}
+      .finder-grid .primary-btn{width:100%}
+    }
+    @media(max-width:720px){
+      .brand-tag,.small-btn span{display:none}
+      .hero{padding-top:35px}.hero-grid{gap:30px}
+      .hero h1{font-size:clamp(42px,13vw,61px)}
+      .hero-panel{min-height:520px}
+      .category-grid,.profile-grid{grid-template-columns:1fr}
+      .register-actions{grid-template-columns:1fr}
+      .finder-grid,.form-grid{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      .professional-toolbar{align-items:flex-start;flex-direction:column}
+      .footer-shell{flex-direction:column;align-items:flex-start}
+      .registered-row{grid-template-columns:45px minmax(0,1fr) auto}
+    }
+    @media(max-width:520px){
+      .container{width:min(100% - 20px,var(--container))}
+      .site-header{padding-top:8px}
+      .nav-shell{min-height:64px;border-radius:18px}
+      .brand-name{font-size:19px}.brand-mark{width:41px;height:41px}
+      .small-btn{min-width:40px;width:40px;padding:0}
+      .hero-actions{display:grid}.hero-actions a,.hero-actions button{width:100%}
+      .hero-panel{min-height:555px;padding:18px}
+      .match-stats{grid-template-columns:1fr}
+      .category-cloud{grid-template-columns:1fr 1fr}
+      .hero-search{left:14px;right:14px;bottom:14px}
+      .register-actions{padding:21px}
+      .modal-card{padding:18px;border-radius:22px}
+      .modal-actions{display:grid;grid-template-columns:1fr 1fr}
+      .modal-actions button{width:100%}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *{scroll-behavior:auto!important;animation:none!important;transition-duration:.01ms!important}
+      .reveal{opacity:1;transform:none}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-shell glass">
+        <a class="brand" href="{% url 'home' %}" aria-label="LegalEase homepage">
+          <span class="brand-mark"><i class="fa-solid fa-scale-balanced"></i></span>
+          <span><span class="brand-name">LegalEase</span><span class="brand-tag">Lawyers, firms and AI guidance</span></span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a class="active" href="{% url 'home' %}">Home</a>
+          <a class="active" href="#categories">Lawyers</a>
+          <a href="#professionals">Professionals</a>
+          <a href="#register">Register</a>
+
+        </nav>
+
+        <div class="nav-actions">
+          <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch theme"><i class="fa-solid fa-sun" id="themeIcon"></i></button>
+          <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+          <a class="small-btn" href="{% url 'assistant' %}"><i class="fa-solid fa-message"></i><span>Ask LegalEase</span></a>
+        </div>
+      </div>
+
+      <nav class="mobile-drawer glass" id="mobileDrawer" aria-label="Mobile navigation">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'assistant' %}">AI Legal Assistant</a>
+        <a href="#categories">Practice Categories</a>
+        <a href="#professionals">Professionals</a>
+        <a href="#register">Register</a>
+        <a href="{% url 'home' %}#faq">FAQ</a>
+        <a href="{% url 'home' %}#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <span class="eyebrow"><i class="fa-solid fa-user-tie"></i> Lawyers and law firms</span>
+          <h1>Find the right legal professional for <span class="gradient-text">your situation.</span></h1>
+          <p class="hero-copy">
+            Explore practice areas, prepare your issue with the LegalEase AI assistant, and connect with an appropriate lawyer or firm when personalised professional help is required.
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-btn" href="#professionals">Browse Professionals <i class="fa-solid fa-arrow-down"></i></a>
+            <a class="ghost-btn" href="{% url 'assistant' %}"><i class="fa-solid fa-message"></i> Ask AI First</a>
+            <button class="ghost-btn open-register" type="button" data-type="Lawyer"><i class="fa-solid fa-id-card"></i> Register Profile</button>
+          </div>
+
+          <div class="hero-note">
+            <span><i class="fa-solid fa-circle-check"></i> Category-based matching</span>
+            <span><i class="fa-solid fa-circle-check"></i> Lawyer and firm registration</span>
+            <span><i class="fa-solid fa-circle-check"></i> Profiles reviewed before publication</span>
+          </div>
+        </div>
+
+        <div class="hero-panel reveal" aria-label="Professional matching preview">
+          <div class="panel-head">
+            <strong>Suggested professional match</strong>
+            <span class="verified"><i class="fa-solid fa-circle-check"></i> Demo preview</span>
+          </div>
+
+          <div class="match-card">
+            <div class="match-person">
+              <span class="portrait"><i class="fa-solid fa-user-tie"></i></span>
+              <span><strong>Legal professional profile</strong><span>Cybercrime and financial-fraud matters</span></span>
+              <span class="score">92% match</span>
+            </div>
+            <div class="match-tags"><span>Cybercrime</span><span>Financial fraud</span><span>English</span><span>Hindi</span></div>
+            <div class="match-stats">
+              <div><strong>Experience</strong><span>Profile field</span></div>
+              <div><strong>Location</strong><span>State and city</span></div>
+              <div><strong>Availability</strong><span>Consultation mode</span></div>
+            </div>
+          </div>
+
+          <div class="category-cloud">
+            <div class="cloud-item"><i class="fa-solid fa-gavel"></i><strong>Criminal Law</strong><span>Bail, defence and urgent matters</span></div>
+            <div class="cloud-item"><i class="fa-solid fa-laptop-shield"></i><strong>Cybercrime</strong><span>Fraud, harassment and data misuse</span></div>
+            <div class="cloud-item"><i class="fa-solid fa-house"></i><strong>Civil Disputes</strong><span>Property, contracts and claims</span></div>
+            <div class="cloud-item"><i class="fa-solid fa-people-roof"></i><strong>Family Law</strong><span>Marriage, custody and mediation</span></div>
+          </div>
+
+          <form class="hero-search" id="heroSearchForm">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="heroSearchInput" type="search" placeholder="Search practice area or location..." aria-label="Search lawyers" />
+            <button type="submit" aria-label="Search"><i class="fa-solid fa-arrow-right"></i></button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="finder">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Professional finder</span>
+          <h2>Refine the type of support you need</h2>
+          <p>Use the fields below to filter the demonstration profiles and any profiles registered locally in this browser.</p>
+        </div>
+
+        <form class="finder-shell finder-grid glass reveal" id="finderForm">
+          <div class="field">
+            <label for="keywordFilter">Keyword or name</label>
+            <input id="keywordFilter" type="search" placeholder="e.g. cyber fraud, property, firm name" />
+          </div>
+          <div class="field">
+            <label for="categoryFilter">Practice area</label>
+            <select id="categoryFilter">
+              <option value="">All categories</option>
+              <option>Criminal</option><option>Civil</option><option>Income Tax</option>
+              <option>Corporate</option><option>Family</option><option>Cyber Crime</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="typeFilter">Profile type</label>
+            <select id="typeFilter"><option value="">Lawyers & firms</option><option>Lawyer</option><option>Firm</option></select>
+          </div>
+          <button class="primary-btn" type="submit"><i class="fa-solid fa-filter"></i> Apply Filters</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Practice categories</span>
+          <h2>Choose the area closest to your issue</h2>
+          <p>The original six categories are preserved and presented in the same visual system as the LegalEase homepage and AI assistant.</p>
+        </div>
+
+        <div class="category-grid">
+          <article class="category-card glass reveal" data-filter-category="Criminal">
+            <span class="category-icon"><i class="fa-solid fa-gavel"></i></span>
+            <h3>Criminal Law</h3>
+            <p>Defence, bail, complaints, police procedure and urgent representation.</p>
+            <div class="category-meta"><span class="badge">Urgent matters</span><a href="{% url 'assistant' %}?category=police">Ask AI first →</a></div>
+          </article>
+          <article class="category-card glass reveal" data-filter-category="Civil">
+            <span class="category-icon"><i class="fa-solid fa-scale-unbalanced-flip"></i></span>
+            <h3>Civil Disputes</h3>
+            <p>Property, contracts, compensation claims, notices and other private disputes.</p>
+            <div class="category-meta"><span class="badge">Documents matter</span><a href="{% url 'assistant' %}?category=property">Ask AI first →</a></div>
+          </article>
+          <article class="category-card glass reveal" data-filter-category="Income Tax">
+            <span class="category-icon"><i class="fa-solid fa-receipt"></i></span>
+            <h3>Income Tax & Finance</h3>
+            <p>Tax filings, notices, financial disputes, recovery questions and litigation support.</p>
+            <div class="category-meta"><span class="badge">Specialist area</span><a href="{% url 'assistant' %}?category=loan">Ask AI first →</a></div>
+          </article>
+          <article class="category-card glass reveal" data-filter-category="Corporate">
+            <span class="category-icon"><i class="fa-solid fa-building"></i></span>
+            <h3>Corporate & Startup</h3>
+            <p>Contracts, incorporation, governance, compliance and funding-related support.</p>
+            <div class="category-meta"><span class="badge">Business support</span><a href="{% url 'assistant' %}?category=other">Ask AI first →</a></div>
+          </article>
+          <article class="category-card glass reveal" data-filter-category="Family">
+            <span class="category-icon"><i class="fa-solid fa-people-roof"></i></span>
+            <h3>Family & Marriage</h3>
+            <p>Marriage, divorce, custody, maintenance, mediation and personal safety concerns.</p>
+            <div class="category-meta"><span class="badge">Sensitive matters</span><a href="{% url 'assistant' %}?category=family">Ask AI first →</a></div>
+          </article>
+          <article class="category-card glass reveal" data-filter-category="Cyber Crime">
+            <span class="category-icon"><i class="fa-solid fa-laptop-shield"></i></span>
+            <h3>Cyber Crime</h3>
+            <p>Online fraud, harassment, account misuse, privacy breaches and digital evidence.</p>
+            <div class="category-meta"><span class="badge">Digital evidence</span><a href="{% url 'assistant' %}?category=cyber">Ask AI first →</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="professionals">
+      <div class="container">
+        <div class="professional-toolbar reveal">
+          <div><span class="kicker">Profile preview</span><h2>Professionals and firms</h2></div>
+          <span class="count" id="resultCount">3 demonstration profiles</span>
+        </div>
+
+        <div class="profile-grid" id="profileGrid">
+          <article class="profile-card glass demo-profile" data-name="Aarav Legal Chambers" data-category="Criminal Civil" data-type="Firm">
+            <div class="profile-head">
+              <span class="profile-avatar">AL</span>
+              <span class="profile-name"><strong>Aarav Legal Chambers</strong><span>Firm • Delhi NCR • Demonstration only</span></span>
+              <span class="demo-label">DEMO</span>
+            </div>
+            <div class="profile-tags"><span>Criminal</span><span>Civil</span><span>Hindi</span></div>
+            <p>Example firm profile showing how verified practice areas, location, languages and consultation details may appear.</p>
+            <div class="profile-stats"><div><strong>10+ yrs</strong><span>Example</span></div><div><strong>Hybrid</strong><span>Mode</span></div><div><strong>Delhi NCR</strong><span>Location</span></div></div>
+            <div class="profile-actions"><a href="{% url 'assistant' %}?category=police"><i class="fa-solid fa-message"></i> Prepare issue</a><button class="connect-btn demo-connect" type="button"><i class="fa-solid fa-phone"></i> Connect</button></div>
+          </article>
+
+          <article class="profile-card glass demo-profile" data-name="Niti Tax and Corporate" data-category="Income Tax Corporate" data-type="Firm">
+            <div class="profile-head">
+              <span class="profile-avatar">NT</span>
+              <span class="profile-name"><strong>Niti Tax & Corporate</strong><span>Firm • Noida • Demonstration only</span></span>
+              <span class="demo-label">DEMO</span>
+            </div>
+            <div class="profile-tags"><span>Income Tax</span><span>Corporate</span><span>English</span></div>
+            <p>Example business-law profile for taxation, company documentation, contracts and compliance-related consultation.</p>
+            <div class="profile-stats"><div><strong>8+ yrs</strong><span>Example</span></div><div><strong>Online</strong><span>Mode</span></div><div><strong>Noida</strong><span>Location</span></div></div>
+            <div class="profile-actions"><a href="{% url 'assistant' %}?category=other"><i class="fa-solid fa-message"></i> Prepare issue</a><button class="connect-btn demo-connect" type="button"><i class="fa-solid fa-phone"></i> Connect</button></div>
+          </article>
+
+          <article class="profile-card glass demo-profile" data-name="Meera Digital Law" data-category="Cyber Crime" data-type="Lawyer">
+            <div class="profile-head">
+              <span class="profile-avatar">MD</span>
+              <span class="profile-name"><strong>Meera Digital Law</strong><span>Lawyer profile • Remote • Demonstration only</span></span>
+              <span class="demo-label">DEMO</span>
+            </div>
+            <div class="profile-tags"><span>Cyber Crime</span><span>Privacy</span><span>Hindi</span></div>
+            <p>Example individual profile for online fraud, digital harassment, account misuse and electronic evidence matters.</p>
+            <div class="profile-stats"><div><strong>6+ yrs</strong><span>Example</span></div><div><strong>Remote</strong><span>Mode</span></div><div><strong>India</strong><span>Coverage</span></div></div>
+            <div class="profile-actions"><a href="{% url 'assistant' %}?category=cyber"><i class="fa-solid fa-message"></i> Prepare issue</a><button class="connect-btn demo-connect" type="button"><i class="fa-solid fa-phone"></i> Connect</button></div>
+          </article>
+
+          <div class="empty-state glass" id="emptyProfiles">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <h3>No matching profiles</h3>
+            <p>Try a broader keyword or choose another practice area.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="register">
+      <div class="container">
+        <div class="register-grid glass reveal">
+          <div class="register-copy">
+            <span class="eyebrow"><i class="fa-solid fa-id-badge"></i> Professional registration</span>
+            <h2>Join the LegalEase professional network</h2>
+            <p>Lawyers and firms can submit a profile for review. Submitted profiles are saved securely in the Django database and can be reviewed in Django Admin.</p>
+            <div class="register-list">
+              <span><i class="fa-solid fa-check"></i> Select relevant practice areas and languages</span>
+              <span><i class="fa-solid fa-check"></i> Add Bar Council or firm credential information</span>
+              <span><i class="fa-solid fa-check"></i> Save profiles directly to the Django database</span>
+              <span><i class="fa-solid fa-check"></i> Review required before public publication</span>
+            </div>
+          </div>
+
+          <div class="register-actions">
+            <button class="register-option open-register" type="button" data-type="Lawyer">
+              <i class="fa-solid fa-user-tie"></i>
+              <h3>Register as a Lawyer</h3>
+              <p>Create an individual professional profile with enrolment details, practice areas, languages and consultation preferences.</p>
+              <span>Open lawyer form <i class="fa-solid fa-arrow-right"></i></span>
+            </button>
+            <button class="register-option open-register" type="button" data-type="Firm">
+              <i class="fa-solid fa-building-columns"></i>
+              <h3>Register a Law Firm</h3>
+              <p>Create a firm profile with responsible contact details, office location, practice teams and service categories.</p>
+              <span>Open firm form <i class="fa-solid fa-arrow-right"></i></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="registered">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="kicker">Professional applications</span>
+          <h2>Profiles submitted for review</h2>
+          <p>New profiles are saved in Django and marked as pending until an administrator verifies the professional details.</p>
+        </div>
+
+        <div class="preview-tabs reveal">
+          <button class="tab-btn active" type="button" data-tab="Lawyer">Registered Lawyers</button>
+          <button class="tab-btn" type="button" data-tab="Firm">Registered Firms</button>
+        </div>
+
+        <div class="registered-list" id="registeredList">
+          {% for profile in registered_profiles %}
+            <article class="registered-row glass"
+                     data-profile-type="{{ profile.profile_type }}">
+              <span class="registered-avatar">
+                {{ profile.name|slice:":1"|upper }}
+              </span>
+
+              <div>
+                <strong>{{ profile.name }}</strong>
+                <p>
+                  {{ profile.profile_type }} • {{ profile.domain }} •
+                  {{ profile.city }}
+                  {% if profile.exp %} • {{ profile.exp }}{% endif %}
+                </p>
+                <p>
+                  {% if profile.register_id %}Credential: {{ profile.register_id }}{% else %}Credential details pending{% endif %}
+                  {% if profile.created_at %} • Submitted {{ profile.created_at|date:"d M Y" }}{% endif %}
+                </p>
+              </div>
+
+              <span class="badge">
+                {% if profile.is_approved %}Approved{% else %}Pending review{% endif %}
+              </span>
+            </article>
+          {% empty %}
+            <div class="registered-empty glass" id="noDatabaseProfiles">
+              No profiles have been submitted yet.
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-shell glass">
+        <p>© <span id="year"></span> LegalEase. Demo profiles are illustrative. Verify professional credentials independently before engagement.</p>
+        <div class="footer-links">
+          <a href="{% url 'home' %}">Home</a>
+          <a href="{% url 'assistant' %}">AI Assistant</a>
+          <a href="#categories">Categories</a>
+          <a href="#register">Register</a>
+          <a href="{% url 'home' %}#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal" id="registrationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card glass">
+      <div class="modal-head">
+        <div><span class="kicker">LegalEase professional network</span><h2 id="modalTitle">Register Lawyer</h2><p>Complete the details below. The profile will be saved and sent for review.</p></div>
+        <button class="close-btn" id="closeModal" type="button" aria-label="Close registration form"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <form id="registrationForm" action="{% url 'lawyers' %}" method="post">
+        {% csrf_token %}
+        <input id="profileType" type="hidden" name="profile_type" value="Lawyer" />
+        <div class="form-grid">
+          <div class="field">
+            <label for="profileName">Full name / Firm name *</label>
+            <input id="profileName" type="text" name="name" maxlength="90" required />
+          </div>
+          <div class="field">
+            <label for="barId">Bar Council ID / Firm registration</label>
+            <input id="barId" type="text" name="register_id" maxlength="60" />
+          </div>
+          <div class="field">
+            <label for="profileEmail">Professional email *</label>
+            <input id="profileEmail" type="email" name="email" maxlength="100" required />
+          </div>
+          <div class="field">
+            <label for="profilePhone">Phone number *</label>
+            <input id="profilePhone" type="tel" name="number" maxlength="20" required />
+          </div>
+          <div class="field">
+            <label for="profileLocation">City / State *</label>
+            <input id="profileLocation" type="text" name="city" maxlength="80" required />
+          </div>
+          <div class="field">
+            <label for="experience">Experience</label>
+            <input id="experience" type="text" maxlength="30" name="exp" placeholder="e.g. 5 years" />
+          </div>
+          <div class="field">
+            <label for="speciality">Primary practice area *</label>
+            <select id="speciality" required name="domain">
+              <option value="">Choose practice area</option>
+              <option>Criminal</option><option>Civil</option><option>Income Tax</option>
+              <option>Corporate</option><option>Family</option><option>Cyber Crime</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="languages">Languages</label>
+            <input id="languages" type="text" name="lan" maxlength="80" placeholder="English, Hindi..." />
+          </div>
+          <div class="field full">
+            <label for="profileBio">Short bio / credentials</label>
+            <textarea id="profileBio" maxlength="450" name="bio" placeholder="Describe experience, services and consultation mode."></textarea>
+          </div>
+          <label class="checkbox field full">
+            <input id="profileConsent" type="checkbox" name="consent" value="yes" required />
+            <span>I confirm that these details are accurate and understand that the profile must be reviewed before it is treated as verified.</span>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button class="ghost-btn" id="cancelModal" type="button">Cancel</button>
+          <button class="primary-btn" type="submit">Save Profile <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  {% if messages %}
+    <div id="djangoMessages" hidden>
+      {% for message in messages %}
+        <span data-message="{{ message|escapejs }}"></span>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <script>
+    (() => {
+      "use strict";
+
+      const root = document.documentElement;
+      const storageTheme = "legalease-theme";
+      const themeToggle = document.getElementById("themeToggle");
+      const themeIcon = document.getElementById("themeIcon");
+      const menuBtn = document.getElementById("menuBtn");
+      const mobileDrawer = document.getElementById("mobileDrawer");
+      const toast = document.getElementById("toast");
+      const modal = document.getElementById("registrationModal");
+      const registrationForm = document.getElementById("registrationForm");
+      const profileType = document.getElementById("profileType");
+      const modalTitle = document.getElementById("modalTitle");
+      const profileGrid = document.getElementById("profileGrid");
+      const emptyProfiles = document.getElementById("emptyProfiles");
+      const resultCount = document.getElementById("resultCount");
+      let activeTab = "Lawyer";
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => toast.classList.remove("show"), 2800);
+      }
+
+      function setTheme(theme, persist = true) {
+        root.setAttribute("data-theme", theme);
+        themeIcon.className = theme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+        if (persist) {
+          try { localStorage.setItem(storageTheme, theme); } catch (_) {}
+        }
+      }
+      let savedTheme = null;
+      try { savedTheme = localStorage.getItem(storageTheme); } catch (_) {}
+      setTheme(savedTheme === "dark" ? "dark" : "light", false);
+      themeToggle.addEventListener("click", () => setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"));
+
+      menuBtn.addEventListener("click", () => {
+        const open = mobileDrawer.classList.toggle("open");
+        menuBtn.setAttribute("aria-expanded", String(open));
+        menuBtn.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+      });
+      mobileDrawer.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+        mobileDrawer.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+      }));
+
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .1 });
+      document.querySelectorAll(".reveal").forEach(element => revealObserver.observe(element));
+
+      function openModal(type) {
+        registrationForm.reset();
+        profileType.value = type;
+        modalTitle.textContent = "Register " + type;
+        modal.classList.add("open");
+        document.body.style.overflow = "hidden";
+        setTimeout(() => document.getElementById("profileName").focus(), 50);
+      }
+      function closeModal() {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      document.querySelectorAll(".open-register").forEach(button => button.addEventListener("click", () => openModal(button.dataset.type || "Lawyer")));
+      document.getElementById("closeModal").addEventListener("click", closeModal);
+      document.getElementById("cancelModal").addEventListener("click", closeModal);
+      modal.addEventListener("click", event => { if (event.target === modal) closeModal(); });
+      document.addEventListener("keydown", event => { if (event.key === "Escape" && modal.classList.contains("open")) closeModal(); });
+
+      registrationForm.addEventListener("submit", () => {
+        const submitButton = registrationForm.querySelector('button[type="submit"]');
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.innerHTML =
+            'Saving Profile <i class="fa-solid fa-spinner fa-spin"></i>';
+        }
+      });
+
+      function filterRegisteredProfiles() {
+        const rows = document.querySelectorAll("[data-profile-type]");
+        let visible = 0;
+
+        rows.forEach(row => {
+          const show = row.dataset.profileType === activeTab;
+          row.style.display = show ? "" : "none";
+          if (show) visible++;
+        });
+
+        const existingEmpty = document.getElementById("tabEmptyState");
+        if (existingEmpty) existingEmpty.remove();
+
+        if (!visible && rows.length) {
+          const empty = document.createElement("div");
+          empty.id = "tabEmptyState";
+          empty.className = "registered-empty glass";
+          empty.textContent =
+            "No " + activeTab.toLowerCase() + " profiles have been registered yet.";
+          document.getElementById("registeredList").appendChild(empty);
+        }
+      }
+
+      function updateTabs() {
+        document.querySelectorAll(".tab-btn").forEach(button => {
+          button.classList.toggle("active", button.dataset.tab === activeTab);
+        });
+        filterRegisteredProfiles();
+      }
+
+      document.querySelectorAll(".tab-btn").forEach(button => {
+        button.addEventListener("click", () => {
+          activeTab = button.dataset.tab;
+          updateTabs();
+        });
+      });
+
+      function applyFilters() {
+        const keyword = document.getElementById("keywordFilter").value.trim().toLowerCase();
+        const category = document.getElementById("categoryFilter").value.toLowerCase();
+        const type = document.getElementById("typeFilter").value.toLowerCase();
+        const cards = [...document.querySelectorAll(".demo-profile")];
+        let visible = 0;
+
+        cards.forEach(card => {
+          const haystack = [card.dataset.name, card.dataset.category, card.dataset.type, card.textContent].join(" ").toLowerCase();
+          const categoryMatch = !category || haystack.includes(category);
+          const typeMatch = !type || String(card.dataset.type).toLowerCase() === type;
+          const keywordMatch = !keyword || haystack.includes(keyword);
+          const show = categoryMatch && typeMatch && keywordMatch;
+          card.style.display = show ? "" : "none";
+          if (show) visible++;
+        });
+
+        emptyProfiles.style.display = visible ? "none" : "block";
+        resultCount.textContent = visible + (visible === 1 ? " demonstration profile" : " demonstration profiles");
+      }
+
+      document.getElementById("finderForm").addEventListener("submit", event => {
+        event.preventDefault();
+        applyFilters();
+        document.getElementById("professionals").scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.querySelectorAll("[data-filter-category]").forEach(card => {
+        card.addEventListener("click", event => {
+          if (event.target.closest("a")) return;
+          document.getElementById("categoryFilter").value = card.dataset.filterCategory;
+          applyFilters();
+          document.getElementById("professionals").scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      document.getElementById("heroSearchForm").addEventListener("submit", event => {
+        event.preventDefault();
+        document.getElementById("keywordFilter").value = document.getElementById("heroSearchInput").value;
+        applyFilters();
+        document.getElementById("professionals").scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.querySelectorAll(".demo-connect").forEach(button => button.addEventListener("click", () => {
+        showToast("This is a demonstration profile. Add verified contact data through your Django backend.");
+      }));
+
+      updateTabs();
+
+      const djangoMessages = document.querySelectorAll(
+        "#djangoMessages [data-message]"
+      );
+      djangoMessages.forEach(message => {
+        if (message.dataset.message) showToast(message.dataset.message);
+      });
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
