@@ -43,7 +43,7 @@ class LegalAdmin(admin.ModelAdmin):
 
         if extension in {".mp4", ".webm", ".ogg"}:
             return format_html(
-                '<video width="230" controls preload="metadata">'
+                '<video width="200" controls preload="metadata">'
                 '<source src="{}">Your browser does not support video.'
                 '</video>',
                 file_url,
